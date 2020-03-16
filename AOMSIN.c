@@ -1,5 +1,5 @@
 #include<stdio.h>
 main()
 {
-  printf("AOMSIN");
+  printf("AOMSIN AOMSIN");
 }
