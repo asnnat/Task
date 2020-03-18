@@ -3,26 +3,20 @@ main()
 {
 	int n;
 	scanf("%d",&n);
-	int a[n];
-	if(0<n<=1000)
+	int min=2000000000;
+	int max=-2000000000;
+	for(int i=0;i<n;i++)
 	{
-		for(int i=0;i<n;i++)
+		int x;
+		scanf("%d",&x);
+		if(x>max)
 		{
-			scanf("%d",&a[i]);
+			max=x;
 		}
-		int m=a[0];
-		int M=a[0];
-		for(int i=0;i<n;i++)
+		if(x<min)
 		{
-			if(m>a[i])
-			{
-				m=a[i];
-			}
-			if(M<a[i])
-			{
-				M=a[i];
-			}
+			min=x;
 		}
-		printf("%d\n%d",m,M);
 	}
+	printf("%d\n%d",min,max);
 }
