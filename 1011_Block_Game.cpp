@@ -41,6 +41,7 @@ main()
                 score-=5;
             else if(a[p][q+1]!='#')
                 score-=5;
+        /*
         for(int j=0;j<y;j++)
         {
             for(int k=0;k<x;k++)
@@ -49,9 +50,9 @@ main()
             }
             cout << endl;
         }
+        */
     }
     cout << score << endl;
-    /*
     for(int i=0;i<y;i++)
     {
         for(int j=0;j<x;j++)
@@ -60,5 +61,4 @@ main()
         }
         cout << endl;
     }
-    */
 }
