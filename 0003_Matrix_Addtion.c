@@ -7,8 +7,6 @@ main()
     int a[m][n];
     int i;
     int j;
-    if(n>0&&n<101 && m>0&&m<101)
-    {
         for(int i=0;i<m;i++)
         {
             for(j=0;j<n;j++)
