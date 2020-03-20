@@ -69,7 +69,6 @@ main()
                 break;
             }    
         }
-        //cout << sum << endl;
         cin >> s;
     }
     double d=sqrtf(pow(x,2)+pow(y,2));
