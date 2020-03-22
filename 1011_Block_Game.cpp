@@ -1,61 +1,81 @@
 #include<iostream>
 using namespace std;
+
+char a[7][7];
+int x,y;
+int score=0;
+
+void clear()
+{
+    for(int i=y;i>1;i--)
+    {
+        for(int j=x;j>1;j--)
+        {
+            if(a[i][j]!='-'&&a[i][j]!='#')
+            {
+                while(a[i-1][j]!='#')
+                {
+                    
+                }
+            }
+        }
+    }
+}
+
 main()
 {
-    int x,y;
     cin >> y >> x;
-    char a[y][x];
-    for(int i=0;i<y;i++)
+    for(int i=0;i<7;i++)
     {
-        for(int j=0;j<x;j++)
+        for(int j=0;j<7;j++)
         {
-            cin >> a[i][j];
+            a[i][j]='#';
+            if(i>0&&i<y+1&&j>0&&j<x+1)
+            {
+                cin >> a[i][j];
+            }
         }
     }
     int n;
-    cin >> n;
-    int score=0;
     for(int i=0;i<n;i++)
     {
         int p,q;
         char r;
         cin >> p >> q >> r;
-        if(a[p][q]=='#'||a[p][q]=='-')
-            score-=5;
-        if(r=='L')
-            if(q-1<0)
-                score-=5;
-            else if(a[p][q-1]!='#')
-                score-=5;
-            else
-                a[p][q-1]=a[p][q];
-                a[p][q]='-';
-                int x=1;
-                while(a[p-x][q]!='-'&&p-x>=0)
-                {
-                    a[p-x-1][q-1]=a[p-x][q-1];
-                    x++;
-                }          
-        if(r=='R')
-            if(q+1>=x)
-                score-=5;
-            else if(a[p][q+1]!='#')
-                score-=5;
-        /*
-        for(int j=0;j<y;j++)
+        if(a[p][q]=='-'||a[p][q]=='#')
         {
-            for(int k=0;k<x;k++)
-            {
-                cout << a[j][k] << ' ';
-            }
-            cout << endl;
+            score-=5;
         }
-        */
+        else
+        {
+            if(r=='L')
+            {
+                if(q-1<1)
+                {
+                    score-=5;
+                }
+                else
+                {
+                    if(a[p][q-1]!='-')
+                    {
+                        score-=5;
+                    }
+                    else
+                    {
+                        a[p][q-1]=a[p][q];
+                        a[p][q]='-';
+                        clear();
+                    }
+                    
+                }
+                
+            }
+        }
+        
     }
-    cout << score << endl;
-    for(int i=0;i<y;i++)
+    for(int i=0;i<7;i++)
     {
-        for(int j=0;j<x;j++)
+        for(int j=0;j<7;j++)
         {
             cout << a[i][j] << ' ';
         }
