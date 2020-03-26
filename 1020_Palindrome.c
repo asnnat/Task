@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<string.h>
 main()
-{
+{ 
     char a[200];
     gets(a);
     int l=strlen(a);
