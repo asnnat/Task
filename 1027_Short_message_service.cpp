@@ -22,13 +22,23 @@ main()
     while(s!="!")
     {
         int l=0;
+        int x=0;
         while(s[l]!='\0')
         {
+            if(s[l]=='!')
+            {
+                x++;
+                break;
+            }
             if(mc[s[l]]==0)
             {
                 m[s[l]]++;
             }
             l++;
+        }
+        if(x!=0)
+        {
+            break;
         }
         int min=2000000000;
         int p=0;
