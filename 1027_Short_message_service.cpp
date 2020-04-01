@@ -60,6 +60,7 @@ main()
                     q=mitr->first;
                 }
             }
+            
             //cout << "p = " << p << endl;
             if(p==1)
             {
