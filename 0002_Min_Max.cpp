@@ -18,5 +18,6 @@ main()
 			min=x;
 		}
 	}
-	printf("%d\n%d",min,max);
+	printf("%d\n",min);
+	printf("%d",max);
 }
