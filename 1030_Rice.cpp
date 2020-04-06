@@ -6,23 +6,27 @@ main()
 {
     int n;
     cin >> n;
-    map<float,float> m;
-    map<float,float>::iterator mitr;
+    map<double,int> m;
+    map<double,int>::iterator mitr;
     for(int i=0;i<n;i++)
     {
-        float p,q;
+        double p;
+        int q;
         cin >> p >> q;
-        float r=p/q;
-        pair<map<float,float>::iterator,bool> ret;
-        ret=m.insert(pair<float,float>(r,q));
+        double r=p/q;
+        m[r]+=q;
+        /*
+        pair<map<double,int>::iterator,bool> ret;
+        ret=m.insert(pair<double,int>(r,q));
         if(ret.second==false)
         {
             m[r]+=q;
         }
         else
         {
-            m.insert(pair<float,float>(r,q));
+            m.insert(pair<double,int>(r,q));
         }
+        */
     }
     /*
     for(mitr=m.begin();mitr!=m.end();mitr++)
@@ -35,9 +39,9 @@ main()
     mitr=m.begin();
     for(int i=0;i<b;i++)
     {
-        float a;
+        int a;
         cin >> a;
-        float cost=0;
+        double cost=0;
         while(a>0&&mitr!=m.end())
         {
             if(mitr->second>=a)
@@ -57,6 +61,74 @@ main()
                 mitr++;
             }
         }
-        printf("%.3f\n",cost);
+        printf("%.3lf\n",cost);
     }
 }
+/*
+#include<stdio.h>
+main()
+{
+    int n;
+    scanf("%d",&n);
+    struct rice
+    {
+        double price;
+        int kg;
+    }a[n];
+    int i,j;
+    for(i=0;i<n;i++)
+    {
+        double p;
+        int q;
+        scanf(" %lf %d",&p,&q);
+        a[i].price=p/q;
+        a[i].kg=q;
+    }
+    for(i=0;i<n;i++)
+    {
+        for(j=i+1;j<n;j++)
+        {
+            if(a[i].price>a[j].price)
+            {
+                double x;
+                x=a[i].price;
+                a[i].price=a[j].price;
+                a[j].price=x;
+                int y;
+                y=a[i].kg;
+                a[i].kg=a[j].kg;
+                a[j].kg=y;
+            }
+        }
+    }
+    int m;
+    scanf("%d",&m);
+    int r=0;
+    for(i=0;i<m;i++)
+    {
+        int z;
+        scanf("%d",&z);
+        double cost=0;
+        while(z>0)
+        {
+            if(a[r].kg>=z)
+            {
+                a[r].kg-=z;
+                cost+=z*a[r].price;
+                z=0;
+            }
+            else
+            {
+                z-=a[r].kg;
+                cost+=a[r].kg*a[r].price;
+                a[r].kg=0;
+            }
+            if(a[r].kg==0)
+            {
+                r++;
+            }
+        }
+        printf("%.3lf\n",cost);
+    }
+}
+*/
