@@ -5,7 +5,8 @@ main()
     scanf("%d",&n);
     int x,y,z;
     int i;
-    unsigned long long int sumn=1,sumx=1;
+    unsigned long long int sumn=1;
+    unsigned long long int sumx=1;
     x=n/2;
     for(i=x+1;i<=n;i++)
     {
