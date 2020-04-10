@@ -2,13 +2,13 @@
 #include<string.h>
 main()
 {
-    int a[7]; // point
-    int b[7]; // -1 not used tp add | 0 added | 1 can not answer
+    int a[7];
+    int b[7];
     int i,j,k;
     for(i=0;i<7;i++)
     {
-        a[i]=0;
-        b[i]=-1;
+        a[i]=0; // point
+        b[i]=-1; // -1 not used tp add | 0 added | 1 can not answer
     }
     char c[10000];
     scanf("%s",&c);
@@ -16,6 +16,7 @@ main()
     while(check==0)
     {
         int l=strlen(c);
+        int d=0;
         for(i=0;i<l;i++)
         {
             if(c[i]=='!')
