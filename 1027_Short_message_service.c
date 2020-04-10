@@ -2,13 +2,13 @@
 #include<string.h>
 main()
 {
-    int a[7];
-    int b[7];
+    int a[7]; // point
+    int b[7]; // -1 not used tp add | 0 added | 1 can not answer
     int i,j,k;
     for(i=0;i<7;i++)
     {
-        a[i]=0; // point
-        b[i]=-1; // -1 not used tp add | 0 added | 1 can not answer
+        a[i]=0;
+        b[i]=-1;
     }
     char c[10000];
     scanf("%s",&c);
@@ -16,7 +16,17 @@ main()
     while(check==0)
     {
         int l=strlen(c);
-        int d=0;
+        for(i=0;i<l;i++)
+        {
+            if(c[i]=='!')
+            {
+                check++;
+            }
+        }
+        if(check!=0)
+        {
+            break;
+        }
         for(i=0;i<l;i++)
         {
             if(b[c[i]-'A']!=1)
@@ -24,15 +34,6 @@ main()
                 a[c[i]-'A']++;
                 b[c[i]-'A']=0;
             }
-            if(c[i]=='!')
-            {
-                check++;
-            }
-        }
-        //printf("check=%d ",check);
-        if(check!=0&&l==1)
-        {
-            break;
         }
         int min=30000;
         int che=0;
@@ -73,10 +74,6 @@ main()
             printf("%c %d %d\n",'A'+i,a[i],b[i]);
         }
         */
-        if(check!=0)
-        {
-            break;
-        }
         scanf("%s",&c);
     }
     /*
