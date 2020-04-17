@@ -1,50 +1,34 @@
 #include<iostream>
-#include<stdio.h>
-#include<stdlib.h>
+#include<vector>
+#include<algorithm>
 using namespace std;
-
-int cmpfunc(const void *a,const void *b)
-{
-    return (*(int*)b - *(int*)a);
-}
-
 main()
 {
+    vector<int> v;
     int n;
     cin >> n;
-    int a[n];
-    int i,j;
-    for(i=0;i<n;i++)
+    for(int i=0;i<n;i++)
     {
-        a[i]=-1;
-    }
-    //printf("\n");
-    for(i=1;i<=n;i++)
-    {
-        /*
-        for(j=0;j<n;j++)
-        {
-            printf("%d ",a[j]);
-        }
-        printf("\n");
-        */
         char c;
         cin >> c;
         if(c=='P')
         {
-            cin >> a[n-1];
+            int x;
+            cin >> x;
+            v.push_back(x);
         }
-        qsort(a,n,sizeof(int),cmpfunc);
-        if(c=='Q')
+        else
         {
-            cout << a[0] << endl;
-            a[0]=-1;
+            if(v.size()==0)
+            {
+                cout << "-1" << endl;
+            }
+            else
+            {
+                make_heap(v.begin(),v.end());
+                cout << v.front() << endl;
+                v.erase(v.begin());
+            }
         }
-        /*
-        for(j=0;j<n;j++)
-        {
-            printf("%d ",a[j]);
-        }
-        */
     }
 }
