@@ -1,45 +1,45 @@
 #include<stdio.h>
 
-int n;
-int a[30];
-int b[30];
 unsigned long long int c[301];
 int i,j,k;
 
-void func(int x,int y) //x=>start y=>b[y] 
+void func(int x,int y)
 {
-    if(y<n)
+    printf("%d %d ",x,y);
+    c[y]=0;
+    for(i=1;i<=y;i++)
     {
-        printf("x=%d b[y]=%d ",x,b[y]);
-        c[b[y]]=0;
-        int p,q,r;
-        for(i=1;i<=b[y];i++)
+        for(j=1;j<=y+i;j++)
         {
-            for(j=1;j<=b[y]+i;j++)
+            if(j<x)
             {
-                for(k=1;k<=b[y]+i+j;k++)
+                for(k=x;k<=y+i+j;k++)
                 {
-                    c[b[y]]+=(i*j*k)%(i+j+k);
+                    c[y]+=(i*j*k)%(i+j+k);
+                }
+            }
+            else
+            {
+                for(k=1;k<=y+i+j;k++)
+                {
+                    c[y]+=(i*j*k)%(i+j+k);
                 }
             }
         }
-        printf("%llu ",c[b[y]]);
-        if(y!=0&&b[y]>b[y-1])
-        {
-            c[b[y]]+=c[b[y-1]];
-        }
-        printf("%llu\n",c[b[y]]);
-        func(b[y]+1,y+1);
     }
-    else
+    if(x!=1)
     {
-        return ;
+        c[y]+=c[x-1];
     }
+    printf("%d %llu\n",y,c[y]);
 }
 
 main()
 {
+    int n;
     scanf("%d",&n);
+    int a[n];
+    int b[n];
     for(i=0;i<n;i++)
     {
         scanf("%d",&a[i]);
@@ -51,14 +51,24 @@ main()
         {
             if(b[i]>b[j])
             {
-                int x=b[i];
+                int temp=b[i];
                 b[i]=b[j];
-                b[j]=x;
+                b[j]=temp;
             }
         }
     }
-    func(1,0);
-    printf("\n");
+    for(i=0;i<n;i++)
+    {
+        printf("i=%d ",i);
+        if(i==0)
+        {
+            func(1,b[i]);
+        }
+        else
+        {
+            func(b[i-1]+1,b[i]);
+        }
+    }
     for(i=0;i<n;i++)
     {
         printf("%llu\n",c[a[i]]);
