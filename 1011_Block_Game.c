@@ -4,6 +4,7 @@ int y,x;
 char a[7][7];
 int i,j,k,l;
 int score=0;
+static int count=0;
 
 void print()
 {
@@ -76,28 +77,46 @@ void plus(int p,int q) // p=>y q=>x
 {
     if(a[p][q]!='-'&&a[p][q]!='#')
     {
+        printf("%d %d %c\n",p,q,a[p][q]);
         if(a[p][q]==a[p-1][q])
         {
-            print();
             a[p][q]='!';
+            score+=5;
             plus(p-1,q);
         }
         if(a[p][q]==a[p+1][q])
         {
             a[p][q]='!';
+            score+=5;
             plus(p+1,q);
         }
         if(a[p][q]==a[p][q-1])
         {
             a[p][q]='!';
+            score+=5;
             plus(p,q-1);
         }
         if(a[p][q]==a[p][q+1])
         {
             a[p][q]='!';
+            score+=5;
             plus(p,q+1);
         }
-        a[p][q]='!';
+    }
+}
+
+void clear()
+{
+    for(i=1;i<y+1;i++)
+    {
+        for(j=1;j<x+1;j++)
+        {
+            if(a[i][j]=='!')
+            {
+                a[i][j]='-';
+                score+=5;
+            }
+        }
     }
 }
 
@@ -130,8 +149,12 @@ main()
             for(k=1;k<x+1;k++)
             {
                 plus(j,k);
+                print();
+                printf("\n");
             }
         }
-        print();
     }
+    clear();
+    check();
+    print();
 }
