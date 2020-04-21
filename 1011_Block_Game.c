@@ -4,13 +4,13 @@ int y,x;
 char a[7][7];
 int i,j,k,l;
 int score=0;
-static int count=0;
+int count=0;
 
 void print()
 {
-    for(j=0;j<7;j++)
+    for(j=1;j<y+1;j++)
     {
-        for(k=0;k<7;k++)
+        for(k=1;k<x+1;k++)
         {
             printf("%c ",a[j][k]);
         }
@@ -73,47 +73,62 @@ void check()
     }
 }
 
-void plus(int p,int q) // p=>y q=>x
+void plus(int p,int q,char r) // p=>y q=>x
 {
-    if(a[p][q]!='-'&&a[p][q]!='#')
+    if(a[p][q]=='-')
     {
-        printf("%d %d %c\n",p,q,a[p][q]);
-        if(a[p][q]==a[p-1][q])
-        {
-            a[p][q]='!';
-            score+=5;
-            plus(p-1,q);
-        }
-        if(a[p][q]==a[p+1][q])
-        {
-            a[p][q]='!';
-            score+=5;
-            plus(p+1,q);
-        }
-        if(a[p][q]==a[p][q-1])
-        {
-            a[p][q]='!';
-            score+=5;
-            plus(p,q-1);
-        }
-        if(a[p][q]==a[p][q+1])
-        {
-            a[p][q]='!';
-            score+=5;
-            plus(p,q+1);
-        }
+        return ;
+    }
+    if(a[p][q]=='#')
+    {
+        return ;
+    }
+    if(a[p][q]=='!')
+    {
+        return ;
+    }
+    if(r==a[p][q-1])
+    {
+        count++;
+        a[p][q]='!';
+        plus(p,q-1,r);
+    }
+    if(r==a[p][q+1])
+    {
+        count++;
+        a[p][q]='!';
+        plus(p,q+1,r);
+    }
+    if(r==a[p-1][q])
+    {
+        count++;
+        a[p][q]='!';
+        plus(p-1,q,r);
+    }
+    if(r==a[p+1][q])
+    {
+        count++;
+        a[p][q]='!';
+        plus(p+1,q,r);
+    }
+    if(count!=0)
+    {
+        a[p][q]='!';
+        count=0;
+        return ;
     }
 }
 
-void clear()
+void change()
 {
-    for(i=1;i<y+1;i++)
+    int b,c;
+    for(b=1;b<y+1;b++)
     {
-        for(j=1;j<x+1;j++)
+        for(c=1;c<x+1;c++)
         {
-            if(a[i][j]=='!')
+            if(a[b][c]=='!')
             {
-                a[i][j]='-';
+                a[b][c]='-';
                 score+=5;
             }
         }
@@ -144,17 +159,24 @@ main()
         scanf(" %c",&r);
         block(p+1,q+1,r);
         check();
-        for(j=1;j<y+1;j++)
+        for(l=0;l<3;l++)
         {
-            for(k=1;k<x+1;k++)
+            for(j=1;j<y+1;j++)
             {
-                plus(j,k);
-                print();
-                printf("\n");
+                for(k=1;k<x+1;k++)
+                {
+                    plus(j,k,a[j][k]);
+                    change();
+                }
             }
+            check();
         }
+        /*
+        printf("%d\n",score);
+        print();
+        printf("\n");
+        */
     }
-    clear();
-    check();
+    printf("%d\n",score);
     print();
 }
