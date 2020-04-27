@@ -1,7 +1,7 @@
 #include<stdio.h>
 main()
 {
-    char a[10000];
+    char a[10001];
     int i=0;
     int m=0;
     int n=0;
