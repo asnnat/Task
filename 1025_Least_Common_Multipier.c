@@ -3,72 +3,71 @@ main()
 {
     int n;
     scanf("%d",&n);
-    int a[n];
-    unsigned long long int ans=1;
     int i,j,k;
-    for(i=0;i<n;i++)
+    int a[n];
+    unsigned long int LCM = 1;
+    for(i = 0; i < n; i++)
     {
         scanf("%d",&a[i]);
     }
-    if(n==1)
-    {
-        printf("%d",a[n-1]);
-    }
     while(1)
     {
-        int temp=0;
-        int check=0;
-        int change;
-        for(i=1;i<=a[n-1];i++)
+        int allpass = 0;
+        for(i = 2; i <= a[n-1]; i++)
         {
-            printf("%d ",i);
-            for(j=0;j<n;j++)
+            int check = 0;
+            int pass;
+            for(j = 0; j < n; j++)
             {
-                if(a[j]%i==0)
+                if(a[j]%i == 0)
                 {
-                    a[j]/=i;
-                    change=j;
-                    temp++;
+                    a[j] /= i;
+                    check++;
+                    pass = j;
                 }
             }
-            printf("temp=%d\n",temp);
-            if(temp==1)
+            //printf("check = %d\n",check);
+            if(check <= 1)
             {
-                a[change]*=i;
-                check++;
+                if(check == 1)
+                    a[pass] *= i;
             }
-            if(temp>1)
+            else
             {
-                ans*=i;
-                for(j=0;j<n;j++)
+                allpass++;
+                LCM *= i;
+                for(j = 0; j < n; j++)
                 {
-                    for(k=j+1;k<n;k++)
+                    for(k = j+1; k < n; k++)
                     {
-                        if(a[j]>a[k])
+                        if(a[j] > a[k])
                         {
-                            int x=a[j];
-                            a[j]=a[k];
-                            a[k]=x;
+                            int temp = a[j];
+                            a[j] = a[k];
+                            a[k] = temp;
                         }
                     }
                 }
+                i = a[n-1]+1;
             }
-            for(j=0;j<n;j++)
-            {
-                printf("%d ",a[j]);
-            }
-            printf("ans=%d\n",ans);
-            temp=0;
         }
-        if(check==a[n-1])
+        /*
+        printf("allpass=%d\n",allpass);
+        printf("LCM = %lu\n",LCM);
+        for(i = 0; i < n; i++)
+        {
+            printf("%d ",a[i]);
+        }
+        printf("\n");
+        */
+        if(allpass==0)
         {
             break;
         }
-        check=0;
     }
-    for(i=0;i<n;i++)
+    for(i = 0; i < n; i++)
     {
-        ans*=a[i];
+        LCM *= a[i];
     }
-    printf("%llu",ans);
+    printf("%lu",LCM);
 }
