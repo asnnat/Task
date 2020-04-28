@@ -7,7 +7,6 @@ main()
     int n;
     cin >> n;
     map<double,int> m;
-    map<double,int>::iterator mitr;
     for(int i=0;i<n;i++)
     {
         double p;
@@ -36,14 +35,14 @@ main()
     */
     int b;
     cin >> b;
-    mitr=m.begin();
     for(int i=0;i<b;i++)
     {
         int a;
         cin >> a;
         double cost=0;
-        while(a>0&&mitr!=m.end())
+        while(a>0)
         {
+            map<double,int>::iterator mitr=m.begin();
             if(mitr->second>=a)
             {
                 mitr->second-=a;
@@ -58,7 +57,7 @@ main()
             }
             if(mitr->second==0)
             {
-                mitr++;
+                m.erase(mitr);
             }
         }
         printf("%.3lf\n",cost);
