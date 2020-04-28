@@ -1,7 +1,7 @@
 #include<iostream>
 #include<map>
-#include<stdio.h>
 using namespace std;
+
 main()
 {
     int n;
@@ -39,7 +39,7 @@ main()
     {
         int a;
         cin >> a;
-        double cost=0;
+        double cost=0.000;
         while(a>0)
         {
             map<double,int>::iterator mitr=m.begin();
@@ -60,6 +60,8 @@ main()
                 m.erase(mitr);
             }
         }
-        printf("%.3lf\n",cost);
+        cout.precision(3);
+        cout.setf(ios::fixed, ios::floatfield);
+        cout << cost << endl;
     }
 }
