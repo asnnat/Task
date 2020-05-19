@@ -1,35 +1,35 @@
 #include<iostream>
+#include<stdio.h>
 #include<vector>
 #include<algorithm>
 using namespace std;
 main()
 {
-    int n;
-    cin >> n;
+    int num;
+    scanf("%d", &num);
     vector<int> v;
-    for(int i = 0 ; i < n ;i++)
+    for(int i = 0; i < num; i++)
     {
-        char c;
-        cin >> c;
-        if(c=='P')
+        char order;
+        scanf(" %c", &order);
+        if(order == 'P')
         {
-            int x;
-            cin >> x;
-            v.push_back(x);
+            int temp;
+            scanf("%d", &temp);
+            v.push_back(temp);
         }
         else
         {
-            if(v.size()==0)
+            if(v.size() == 0)
             {
-                cout << -1;
+                printf("-1\n");
             }
             else
             {
-                sort(v.begin(),v.end());
-                cout << v.back();
+                sort(v.begin(), v.end());
+                printf("%d\n",v.back());
                 v.pop_back();
             }
-            cout << endl;
         }
     }
 }
