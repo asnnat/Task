@@ -5,13 +5,13 @@ using namespace std;
 main()
 {
     int n;
-    cin >> n;
+    scanf("%d", &n);
     map<double,int> m;
     for(int i=0;i<n;i++)
     {
         double p;
-        int q;
-        cin >> p >> q;
+        double q;
+        scanf("%lf %lf", &p, &q);
         double r=p/q;
         m[r]+=q;
         /*
@@ -38,8 +38,8 @@ main()
     for(int i=0;i<b;i++)
     {
         int a;
-        cin >> a;
-        double cost=0.000;
+        scanf("%d", &a);
+        double cost=0;
         while(a>0)
         {
             map<double,int>::iterator mitr=m.begin();
@@ -60,8 +60,6 @@ main()
                 m.erase(mitr);
             }
         }
-        cout.precision(3);
-        cout.setf(ios::fixed, ios::floatfield);
-        cout << cost << endl;
+        printf("%.3lf\n", cost);
     }
 }
