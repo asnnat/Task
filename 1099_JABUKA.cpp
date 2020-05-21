@@ -3,17 +3,22 @@ using namespace std;
 main()
 {
     int r,g;
-    cin >> r >> g;
-    int min=r;
-    if(g<r)
+    scanf("%d %d",&r,&g);
+    int min;
+    if(r<=g)
+    {
+        min=r;
+    }
+    else
     {
         min=g;
     }
-    for(int i=1;i<=min;i++)
+    int i;
+    for(i=1;i<=min;i++)
     {
-        if(r%i==0&&g%i==0)
+        if(r%i==0 && g%i==0)
         {
-            cout << i << ' ' << r/i << ' ' << g/i << endl;
+            printf("%d %d %d\n",i,r/i,g/i);
         }
     }
 }
