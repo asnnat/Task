@@ -147,6 +147,43 @@ int CheckUpLeftOblique(int x, int y, char z)
     }
 }
 
+int CheckArray(int x, int y, char z)
+{
+    if(CheckDown(x, y, z) == 1)
+        return 1;
+    else if(CheckUp(x, y, z) == 1)
+        return 1;
+    else if(CheckLeft(x, y, z) == 1)
+        return 1;
+    else if(CheckRight(x, y, z) == 1)
+        return 1;
+    else if(CheckUpLeftOblique(x, y, z) == 1)
+        return 1;
+    else if(CheckUpRightOblique(x, y, z) == 1)
+        return 1;
+    else if(CheckDownLeftOblique(x, y, z) == 1)
+        return 1;
+    else if(CheckDownRightOblique(x, y, z) == 1)
+        return 1;
+    else 
+        return 0;
+}
+
+void ChangeArray()
+{
+    for(i = 1; i < 10; i++)
+    {
+        for(j = 1; j < 10; j++)
+        {
+            if(reversi[i][j] != '.')
+            {
+                if(CheckDown(j, i, reversi[i][j]) == 1)
+
+            }
+        }
+    }
+}
+
 void PrintArray()
 {
     for(i = 1; i < 9; i++)
@@ -173,28 +210,13 @@ main()
         column = column-'a'+'b'-'a';
         char new = ans[count%2];
 
-        int temp = 0;
-        if(CheckUp(column, row, new) == 1)
-            temp++;
-        if(CheckDown(column, row, new) == 1)
-            temp++;
-        if(CheckLeft(column, row, new) == 1)
-            temp++;
-        if(CheckRight(column, row, new) == 1)
-            temp++;
-        if(CheckUpLeftOblique(column, row, new) == 1)
-            temp++;
-        if(CheckUpRightOblique(column, row, new) == 1)
-            temp++;
-        if(CheckDownLeftOblique(column, row, new) == 1)
-            temp++;
-        if(CheckDownRightOblique(column, row, new) == 1)
-            temp++;
-        if(temp == 0)
-        {
+        if(CheckArray(column, row, new) == 0)
             count++;
-        }
-        reversi[row][column] = new;
+            new = ans[count%2];
+
+        ChangeArray();
+        
+        count++;
     }
     PrintArray();
 }
