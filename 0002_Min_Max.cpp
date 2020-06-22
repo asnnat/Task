@@ -2,22 +2,22 @@
 main()
 {
 	int n;
-	scanf("%d",&n);
-	int min=2000000000;
-	int max=-2000000000;
-	for(int i=0;i<n;i++)
+	scanf("%d", &n);
+	int min = 2000000000;
+	int max = -2000000000;
+	for(int i = 0; i < n; i++)
 	{
 		int x;
-		scanf("%d",&x);
-		if(x>max)
+		scanf("%d", &x);
+		if(x > max)
 		{
-			max=x;
+			max = x;
 		}
-		if(x<min)
+		if(x < min)
 		{
-			min=x;
+			min = x;
 		}
 	}
-	printf("%d\n",min);
-	printf("%d",max);
+	printf("%d\n", min);
+	printf("%d", max);
 }
