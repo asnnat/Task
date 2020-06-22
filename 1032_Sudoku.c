@@ -1,53 +1,136 @@
 #include<stdio.h>
 
-int a[10][10];
-int b[10][10];
-int y[10];
-int count = 0;
-int i, j, k, l, m, n;
+struct sdk
+{
+    int x, y;
+}notYet[81];
+int a[10][10][10];
+int count = 0; // can change >> check all of 0
+int ccount = 0; // can not change >> run notYet array
+int i, j, k, l;
 
 void scana()
 {
     for(i = 1; i < 10; i++)
     {
-        y[i] = 0;
         for(j = 1; j < 10; j++)
         {
-            scanf(" %d", &a[i][j]);
-            if(a[i][j] == 0)
+            scanf(" %d", &a[i][j][0]);
+            if(a[i][j][0] == 0)
             {
-                y[i]++;
+                notYet[count].x = j;
+                notYet[count].y = i;
                 count++;
+                for(k = 1; k < 10; k++)
+                {
+                    a[i][j][k] = 0;
+                }
             }
         }
     }
+    ccount = count;
 }
 
 void answera()
 {
+    for(i = 0; i < ccount; i++)
+    {
+        int y = notYet[i].y;
+        int x = notYet[i].x;
+        if(a[y][x][0] == 0)
+        {
+            for(k = 1; k < 10; k++) // Check horizontal
+            {
+                if(a[y][k][0] != 0)
+                {
+                    a[y][x][a[y][k][0]]++;
+                }
+            }
+            for(k = 1; k < 10; k++) // Check vertical
+            {
+                if(a[k][x][0] != 0)
+                {
+                    a[y][x][a[k][x][0]]++;
+                }
+            }
+            int p, q;
+            if(y < 4)
+            {
+                p = 1;
+            }
+            else if(y < 7)
+            {
+                p = 4;
+            }
+            else
+            {
+                p = 7;
+            }
+            if(x < 4)
+            {
+                q = 1;
+            }
+            else if(x < 7)
+            {
+                q = 4;
+            }
+            else
+            {
+                q = 7;
+            }
+            for(k = 0; k < 3; k++)
+            {
+                for(l = 0; l < 3; l++)
+                {
+                    if(a[p+k][q+l][0] != 0)
+                    {
+                        a[y][x][a[p+k][q+l][0]]++;
+                    }
+                }
+            }
+            int check = 0;
+            int ans;
+            for(k = 1; k < 10; k++)
+            {
+                if(a[y][x][k] == 0)
+                {
+                    ans = k;
+                }
+                else
+                {
+                    check++;
+                }
+            }
+            if(check == 8)
+            {
+                a[y][x][0] = ans;
+                count--;
+                if(count == 0)
+                {
+                    return ;
+                }
+            }
+        }
+    }
+    /*
     for(i = 1; i < 10; i++)
     {
-        for(j = 1; j < 10 && y[i] > 0; j++)
+        for(j = 1; j < 10; j++)
         {
-            if(a[i][j] == 0)
+            if(a[i][j][0] == 0)
             {
-                int temp[10];
-                for(k = 1; k < 10; k++)
-                {
-                    temp[k] = 0;
-                }
                 for(k = 1; k < 10; k++) // Check horizontal
                 {
-                    if(a[i][k] != 0)
+                    if(a[i][k][0] != 0)
                     {
-                        temp[a[i][k]]++;
+                        a[i][j][a[i][k][0]]++;
                     }
                 }
                 for(k = 1; k < 10; k++) // Check vertical
                 {
-                    if(a[k][j] != 0)
+                    if(a[k][j][0] != 0)
                     {
-                        temp[a[k][j]]++;
+                        a[i][j][a[k][j][0]]++;
                     }
                 }
                 int p, q;
@@ -79,9 +162,9 @@ void answera()
                 {
                     for(l = 0; l < 3; l++)
                     {
-                        if(a[p+k][q+l] != 0)
+                        if(a[p+k][q+l][0] != 0)
                         {
-                            temp[a[p+k][q+l]]++;
+                            a[i][j][a[p+k][q+l][0]]++;
                         }
                     }
                 }
@@ -89,7 +172,7 @@ void answera()
                 int ans;
                 for(k = 1; k < 10; k++)
                 {
-                    if(temp[k] == 0)
+                    if(a[i][j][k] == 0)
                     {
                         ans = k;
                     }
@@ -100,9 +183,8 @@ void answera()
                 }
                 if(check == 8)
                 {
-                    a[i][j] = ans;
+                    a[i][j][0] = ans;
                     count--;
-                    y[i]--;
                     if(count == 0)
                     {
                         return ;
@@ -111,37 +193,42 @@ void answera()
             }
         }
     }
+    */
 }
 
-int scanAndCheckb()
+void scanAndCheckb(int answer)
 {
-    int sum = 0;
+    int temp = 0;
     for(i = 1; i < 10; i++)
     {
         for(j = 1; j < 10; j++)
         {
-            scanf(" %d", &b[i][j]);
-            if(a[i][j] != b[i][j])
+            int x;
+            scanf(" %d", &x);
+            if(x != a[i][j][0])
             {
-                sum++;
+                temp++;
             }
         }
     }
-    return sum;
+    if(temp == 0)
+    {
+        printf("%d\n", answer+1);
+    }
 }
-/*
+
 void printa()
 {
     for(i = 1; i < 10; i++)
     {
         for(j = 1; j < 10; j++)
         {
-            printf("%d ", a[i][j]);
+            printf("%d ", a[i][j][0]);
         }
         printf("\n");
     }
 }
-*/
+
 main()
 {
     int N;
@@ -152,13 +239,9 @@ main()
         answera();
     }
     //printa();
-    for(k = 1; k <= N; k++)
+    for(k = 0; k < N; k++)
     {
-        int x = scanAndCheckb();
-        if(x == 0)
-        {
-            printf("%d\n", k);
-        }
+        scanAndCheckb(k);
     }
     printf("END");
 }
