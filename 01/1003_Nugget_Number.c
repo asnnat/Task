@@ -1,0 +1,68 @@
+#include<stdio.h>
+main()
+{
+    int n;
+    scanf("%d",&n);
+    int a[n];
+    int i,j,k;
+    int x=0,y,z;
+    for(i=0;i<n;i++)
+    {
+        a[i]=0;
+    }
+    for(i=6;i<=n;i++)
+    {
+        if(i%6==0||i==9||i%20==0)
+        {
+            a[x]=i;
+            x++;
+        }
+    }
+    for(i=0;i<x;i++)
+    {
+        for(j=i+1;j<x;j++)
+        {
+            y=a[i]+a[j];
+            if(y<=n)
+            {
+                for(k=0;k<x;k++)
+                {
+                    z=0;
+                    if(y==a[k])
+                    {
+                        z++;
+                        k=x;
+                    }
+                }
+                if(z==0)
+                {
+                    a[x]=y;
+                    x++;
+                }
+            }
+        }
+    }
+    for(i=0;i<x;i++)
+    {
+        for(j=i;j<x;j++)
+        {
+            if(a[i]>a[j])
+            {
+                y=a[i];
+                a[i]=a[j];
+                a[j]=y;
+            }
+        }
+    }
+    if(x==0)
+    {
+        printf("no");
+    }
+    else
+    {
+        for(i=0;i<x;i++)
+        {
+            printf("%d\n",a[i]);
+        }
+    }
+}

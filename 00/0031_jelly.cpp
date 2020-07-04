@@ -1,0 +1,45 @@
+#include<stdio.h>
+main()
+{
+	int a[3];
+	int m=0;
+	for(int i=0;i<3;i++)
+	{
+		if(1<=a[i]<=1000000)
+		{
+			scanf("%d",&a[i]);
+			if(a[i]%2==1)
+			{
+				a[i]--;
+				while(a[i]>1)
+				{
+					if(a[i]%2==0)
+					{
+						a[i]=a[i]/2;
+						m++;
+					}
+					if(a[i]%2==1)
+					{
+						a[i]--;
+					}
+				}
+			}
+			else
+			{
+				while(a[i]>1)
+				{
+					if(a[i]%2==0)
+					{
+						a[i]=a[i]/2;
+						m++;
+					}
+					if(a[i]%2==1)
+					{
+						a[i]--;
+					}
+				}
+			}
+		}
+	}
+	printf("%d",m);
+}
