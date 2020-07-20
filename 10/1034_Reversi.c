@@ -1,196 +1,266 @@
 #include<stdio.h>
 
-char reversi[10][10];
+char reversi[8][8];
 int i, j, k;
-int ans[2] = {'x', 'O'};
+int num;
 
-void SetArray()
+void set_reversi()
 {
-    for(i = 0; i < 10; i++)
+    for(i = 0; i < 8; i++)
     {
-        for(j = 0; j < 10; j++)
+        for(j = 0; j < 8; j++)
         {
             reversi[i][j] = '.';
         }
     }
+    reversi[3][3] = 'O';
     reversi[4][4] = 'O';
-    reversi[4][5] = 'X';
-    reversi[5][4] = 'X';
-    reversi[5][5] = 'O';
+    reversi[3][4] = 'X';
+    reversi[4][3] = 'X';
 }
 
-int CheckDown(int x, int y, char z)
+void scan_input()
 {
-    if(x >= 10 && y >=10 && x <= 0 && y <= 0 || reversi[y][x] == '.')
+    scanf(" %d", &num);
+    print_reversi();
+    for(k = 0; k < num; k++)
     {
-        return 0;
-    }
-    if(reversi[y][x] != z)
-    {
-        CheckDown(x, y-1, z);
-    }
-    else
-    {
-        return 1;
-    }
-}
-
-int CheckUp(int x, int y, char z)
-{
-    if(x >= 10 && y >=10 && x <= 0 && y <= 0 || reversi[y][x] == '.')
-    {
-        return 0;
-    }
-    if(reversi[y][x] != z)
-    {
-        CheckUp(x, y+1, z);
-    }
-    else
-    {
-        return 1;
-    }
-}
-
-int CheckLeft(int x, int y, char z)
-{
-    if(x >= 10 && y >=10 && x <= 0 && y <= 0 || reversi[y][x] == '.')
-    {
-        return 0;
-    }
-    if(reversi[y][x] != z)
-    {
-        CheckLeft(x-1, y, z);
-    }
-    else
-    {
-        return 1;
-    }
-}
-
-int CheckRight(int x, int y, char z)
-{
-    if(x >= 10 && y >=10 && x <= 0 && y <= 0 || reversi[y][x] == '.')
-    {
-        return 0;
-    }
-    if(reversi[y][x] != z)
-    {
-        CheckRight(x+1, y, z);
-    }
-    else
-    {
-        return 1;
-    }
-}
-
-int CheckDownRightOblique(int x, int y, char z)
-{
-    if(x >= 10 && y >=10 && x <= 0 && y <= 0 || reversi[y][x] == '.')
-    {
-        return 0;
-    }
-    if(reversi[y][x] != z)
-    {
-        CheckDownRightOblique(x+1, y-1, z);
-    }
-    else
-    {
-        return 1;
-    }
-}
-
-int CheckUpRightOblique(int x, int y, char z)
-{
-    if(x >= 10 && y >=10 && x <= 0 && y <= 0 || reversi[y][x] == '.')
-    {
-        return 0;
-    }
-    if(reversi[y][x] != z)
-    {
-        CheckUpRightOblique(x+1, y+1, z);
-    }
-    else
-    {
-        return 1;
-    }
-}
-
-int CheckDownLeftOblique(int x, int y, char z)
-{
-    if(x >= 10 && y >=10 && x <= 0 && y <= 0 || reversi[y][x] == '.')
-    {
-        return 0;
-    }
-    if(reversi[y][x] != z)
-    {
-        CheckDownLeftOblique(x-1, y-1, z);
-    }
-    else
-    {
-        return 1;
-    }
-}
-
-int CheckUpLeftOblique(int x, int y, char z)
-{
-    if(x >= 10 && y >=10 && x <= 0 && y <= 0 || reversi[y][x] == '.')
-    {
-        return 0;
-    }
-    if(reversi[y][x] != z)
-    {
-        CheckUpLeftOblique(x-1, y+1, z);
-    }
-    else
-    {
-        return 1;
-    }
-}
-
-int CheckArray(int x, int y, char z)
-{
-    if(CheckDown(x, y, z) == 1)
-        return 1;
-    else if(CheckUp(x, y, z) == 1)
-        return 1;
-    else if(CheckLeft(x, y, z) == 1)
-        return 1;
-    else if(CheckRight(x, y, z) == 1)
-        return 1;
-    else if(CheckUpLeftOblique(x, y, z) == 1)
-        return 1;
-    else if(CheckUpRightOblique(x, y, z) == 1)
-        return 1;
-    else if(CheckDownLeftOblique(x, y, z) == 1)
-        return 1;
-    else if(CheckDownRightOblique(x, y, z) == 1)
-        return 1;
-    else 
-        return 0;
-}
-
-void ChangeArray()
-{
-    for(i = 1; i < 10; i++)
-    {
-        for(j = 1; j < 10; j++)
+        char column;
+        int row;
+        scanf(" %c %d", &column, &row);
+        int p = column-'a';
+        int q = row-1;
+        if(k%2 == 0) // BLACK X
         {
-            if(reversi[i][j] != '.')
-            {
-                if(CheckDown(j, i, reversi[i][j]) == 1)
+            check_black(p, q);
+        }
+        else // WHITE O
+        {
+            check_white(p, q);
+        }
+        print_reversi();
+    }
+}
 
+void check_black(int x, int y)
+{
+    char z = 'X';
+    reversi[y][x] = z;
+    check_left(x, y, z);
+    check_right(x, y, z);
+    check_up(x, y, z);
+    check_down(x, y, z);
+    check_left_up(x, y, z);
+    check_left_down(x, y, z);
+    check_right_up(x, y, z);
+    check_right_down(x, y, z);
+}
+
+void check_white(int x, int y)
+{
+    char z = 'O';
+    reversi[y][x] = z;
+    check_left(x, y, z);
+    check_right(x, y, z);
+    check_up(x, y, z);
+    check_down(x, y, z);
+    check_left_up(x, y, z);
+    check_left_down(x, y, z);
+    check_right_up(x, y, z);
+    check_right_down(x, y, z);
+}
+
+void check_left(int x, int y, char z)
+{
+    for(i = 1; i < 8 && x-i >= 0; i--)
+    {
+        if(reversi[y][x-i] == '.')
+        {
+            return ;
+        }
+        else if(reversi[y][x-i] != z)
+        {
+
+        }
+        else
+        {
+            for(j = i; j < x; j++)
+            {
+                reversi[y][x-i+j] = z;
             }
+            return ;
         }
     }
 }
 
-void PrintArray()
+void check_right(int x, int y, char z)
 {
-    for(i = 1; i < 9; i++)
+    for(i = 1; i < 8 && x+i < 8; i++)
     {
-        for(j = 1; j < 9; j++)
+        if(reversi[y][x+i] == '.')
         {
-            printf("%c", reversi[i][j]);
+            return ;
+        }
+        else if(reversi[y][x+i] != z)
+        {
+
+        }
+        else
+        {
+            for(j = i; j < x; j++)
+            {
+                reversi[y][x+i-j] = z;
+            }
+            return ;
+        }
+    }
+}
+
+void check_up(int x, int y, char z)
+{
+    for(i = 1; i < 8 && y-i >= 0; i++)
+    {
+        if(reversi[y-i][x] == '.')
+        {
+            return ;
+        }
+        else if(reversi[y-i][x] != z)
+        {
+
+        }
+        else
+        {
+            for(j = i; j < y; j++)
+            {
+                reversi[y-i+j][x] = z;
+            }
+            return ;
+        }
+    }
+}
+
+void check_down(int x, int y, char z)
+{
+    for(i = 1; i < 8 && y+i < 8; i++)
+    {
+        if(reversi[y+i][x] == '.')
+        {
+            return ;
+        }
+        else if(reversi[y+i][x] != z)
+        {
+
+        }
+        else
+        {
+            for(j = i; j < x; j++)
+            {
+                reversi[y+i-j][x] = z;
+            }
+            return ;
+        }
+    }
+}
+
+void check_left_up(int x,int y, char z)
+{
+    for(i = 1; i < 8 && y-i >= 0 && x-i >= 0; i++)
+    {
+        if(reversi[y-i][x-i] == '.')
+        {
+            return ;
+        }
+        else if(reversi[y-i][x-i] != z)
+        {
+
+        }
+        else
+        {
+            for(j = i; j < y; j++)
+            {
+                reversi[y-i+j][x-i+j] = z;
+            }
+            return ;
+        }
+    }
+}
+
+void check_left_down(int x,int y, char z)
+{
+    for(i = 1; i < 8 && y+i < 8 && x-i >= 0; i++)
+    {
+        if(reversi[y+i][x-i] == '.')
+        {
+            return ;
+        }
+        else if(reversi[y+i][x-i] != z)
+        {
+
+        }
+        else
+        {
+            for(j = i; j < y; j++)
+            {
+                reversi[y+i-j][x-i+j] = z;
+            }
+            return ;
+        }
+    }
+}
+
+void check_right_up(int x,int y, char z)
+{
+    for(i = 1; i < 8 && y-i >= 0 && x+i < 8; i++)
+    {
+        if(reversi[y-i][x+i] == '.')
+        {
+            return ;
+        }
+        else if(reversi[y-i][x+i] != z)
+        {
+
+        }
+        else
+        {
+            for(j = i; j < y; j++)
+            {
+                reversi[y-i+j][x+i-j] = z;
+            }
+            return ;
+        }
+    }
+}
+
+void check_right_down(int x,int y, char z)
+{
+    for(i = 1; i < 8 && y+i < 8 && x+i < 8; i++)
+    {
+        if(reversi[y+i][x+i] == '.')
+        {
+            return ;
+        }
+        else if(reversi[y+i][x+i] != z)
+        {
+
+        }
+        else
+        {
+            for(j = i; j < y; j++)
+            {
+                reversi[y+i-j][x+i-j] = z;
+            }
+            return ;
+        }
+    }
+}
+
+void print_reversi()
+{
+    for(i = 0; i < 8; i++)
+    {
+        for(j = 0; j < 8; j++)
+        {
+            printf("%c",reversi[i][j]);
         }
         printf("\n");
     }
@@ -198,25 +268,7 @@ void PrintArray()
 
 main()
 {
-    int num;
-    scanf("%d", &num);
-    SetArray();
-    int count = 0;
-    for(i = 0; i < num; i++)
-    {
-        char column;
-        int row;
-        scanf(" %c%d", &column, &row);
-        column = column-'a'+'b'-'a';
-        char new = ans[count%2];
-
-        if(CheckArray(column, row, new) == 0)
-            count++;
-            new = ans[count%2];
-
-        ChangeArray();
-        
-        count++;
-    }
-    PrintArray();
+    set_reversi();
+    scan_input();
+    print_reversi();
 }
