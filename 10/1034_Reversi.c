@@ -31,206 +31,150 @@ void print_reversi()
     }
 }
 
-void check_left(int x, int y, char z)
+void check(int x, int y, char z)
 {
+    // on left
     for(i = x+1; i < 8; i++)
     {
         if(reversi[y][i] == '.')
         {
-            break;
+            i = 8;
         }
         if(reversi[y][i] == z)
         {
-            printf("LEFT\n");
+            //printf("LEFT\n");
             for(j = i-1; j > x; j--)
             {
                 reversi[y][j] = z;
             }
-            break;
+            i = 8;
         }
     }
-}
-
-void check_right(int x, int y, char z)
-{
+    // on right
     for(i = x-1; i >= 0; i--)
     {
         if(reversi[y][i] == '.')
         {
-            break;
+            i = -1;
         }
         if(reversi[y][i] == z)
         {
-            printf("RIGHT\n");
+            //printf("RIGHT\n");
             for(j = i+1; j < x; j++)
             {
                 reversi[y][j] = z;
             }
-            break;
+            i = -1;
         }
     }
-}
-
-void check_up(int x, int y, char z)
-{
+    // over
     for(i = y+1; i < 8; i++)
     {
         if(reversi[i][x] == '.')
         {
-            break;
+            i = 8;
         }
         if(reversi[i][x] == z)
         {
-            printf("UP\n");
+            //printf("UP\n");
             for(j = i-1; j > y; j--)
             {
                 reversi[j][x] = z;
             }
-            break;
+            i = 8;
         }
     }
-}
-
-void check_down(int x, int y, char z)
-{
+    // under
     for(i = y-1; i >= 0; i--)
     {
         if(reversi[i][x] == '.')
         {
-            break;
+            i = -1;
         }
         if(reversi[i][x] == z)
         {
-            printf("DOWN\n");
+            //printf("DOWN\n");
             for(j = i+1; j < y; j++)
             {
                 reversi[j][x] = z;
             }
-            break;
+            i = -1;
         }
     }
-}
-
-void check_left_up(int x,int y, char z)
-{
+    // on left over
     for(i = 1; y+i < 8 && x+i < 8; i++)
     {
         if(reversi[y+i][x+i] == '.')
         {
-            break;
+            i = 8;
         }
         if(reversi[y+i][x+i] == z)
         {
-            for(j = i-1; j > y; j--)
+            //printf("LEFT_OVER\n");
+            for(j = 1; j < i; j++)
             {
-                reversi[y-i+j][x-i+j] = z;
+                reversi[y+j][x+j] = z;
             }
-            break;
+            i = 8;
         }
     }
-}
-
-void check_left_down(int x,int y, char z)
-{
-    for(i = 1; i < 8 && y+i < 8 && x-i >= 0; i++)
-    {
-        if(reversi[y+i][x-i] == '.')
-        {
-            return ;
-        }
-        else if(reversi[y+i][x-i] != z)
-        {
-
-        }
-        else
-        {
-            for(j = i; j < y; j++)
-            {
-                reversi[y+i-j][x-i+j] = z;
-            }
-            return ;
-        }
-    }
-}
-
-void check_right_up(int x,int y, char z)
-{
-    for(i = 1; i < 8 && y-i >= 0 && x+i < 8; i++)
+    // on left under
+    for(i = 1; y-i >= 0 && x+i < 8; i++)
     {
         if(reversi[y-i][x+i] == '.')
         {
-            return ;
+            i = 8;
         }
-        else if(reversi[y-i][x+i] != z)
+        if(reversi[y-i][x+i] == z)
         {
-
-        }
-        else
-        {
-            for(j = i; j < y; j++)
+            //printf("LEFT_UNDER\n");
+            for(j = 1; j < i; j++)
             {
-                reversi[y-i+j][x+i-j] = z;
+                reversi[y-j][x+j] = z;
             }
-            return ;
+            i = 8;
         }
     }
-}
-
-void check_right_down(int x,int y, char z)
-{
-    for(i = 1; i < 8 && y+i < 8 && x+i < 8; i++)
+    // on right over
+    for(i = 1; y+i < 8 && x-i >= 0; i++)
     {
-        if(reversi[y+i][x+i] == '.')
+        if(reversi[y+i][x-i] == '.')
         {
-            return ;
+            i = 8;
         }
-        else if(reversi[y+i][x+i] != z)
+        if(reversi[y+i][x-i] == z)
         {
-
-        }
-        else
-        {
-            for(j = i; j < y; j++)
+            //printf("RIGHT_OVER\n");
+            for(j = 1; j < i; j++)
             {
-                reversi[y+i-j][x+i-j] = z;
+                reversi[y+j][x-j] = z;
             }
-            return ;
+            i = 8;
         }
     }
-}
-
-void check_black(int x, int y, char z)
-{
-    reversi[y][x] = z;
-    check_left(x, y, z);
-    check_right(x, y, z);
-    check_up(x, y, z);
-    check_down(x, y, z);
-    check_left_up(x, y, z);
-    /*check_left_down(x, y, z);
-    check_right_up(x, y, z);
-    check_right_down(x, y, z);
-    */
-}
-
-void check_white(int x, int y, char z)
-{
-    reversi[y][x] = z;
-    check_left(x, y, z);
-    check_right(x, y, z);
-    check_up(x, y, z);
-    check_down(x, y, z);
-    check_left_up(x, y, z);
-    /*check_left_down(x, y, z);
-    check_right_up(x, y, z);
-    check_right_down(x, y, z);
-    */
+    // on right under
+    for(i = 1; y-i >= 0 && x-i >= 0; i++)
+    {
+        if(reversi[y-i][x-i] == '.')
+        {
+            i = 8;
+        }
+        if(reversi[y-i][x-i] == z)
+        {
+            //printf("RIGHT_UNDER\n");
+            for(j = 1; j < i; j++)
+            {
+                reversi[y-j][x-j] = z;
+            }
+            i = 8;
+        }
+    }
 }
 
 void scan_input()
 {
     scanf(" %d", &num);
-    print_reversi();
+    //print_reversi();
     for(k = 0; k < num; k++)
     {
         char column;
@@ -240,14 +184,16 @@ void scan_input()
         int q = row-1;
         if(k%2 == 0) // BLACK X
         {
-            check_black(p, q, 'X');
+            reversi[q][p] = 'X';
+            check(p, q, 'X');
         }
         else // WHITE O
         {
-            check_white(p, q, 'O');
+            reversi[q][p] = 'O';
+            check(p, q, 'O');
         }
-        print_reversi();
-        printf("\n");
+        //print_reversi();
+        //printf("\n");
     }
 }
 
