@@ -31,8 +31,9 @@ void print_reversi()
     }
 }
 
-void check(int x, int y, char z)
+int check(int x, int y, char z)
 {
+    int change = 0;
     // on left
     for(i = x+1; i < 8; i++)
     {
@@ -42,6 +43,7 @@ void check(int x, int y, char z)
         }
         if(reversi[y][i] == z)
         {
+            change++;
             //printf("LEFT\n");
             for(j = i-1; j > x; j--)
             {
@@ -59,6 +61,7 @@ void check(int x, int y, char z)
         }
         if(reversi[y][i] == z)
         {
+            change++;
             //printf("RIGHT\n");
             for(j = i+1; j < x; j++)
             {
@@ -76,6 +79,7 @@ void check(int x, int y, char z)
         }
         if(reversi[i][x] == z)
         {
+            change++;
             //printf("UP\n");
             for(j = i-1; j > y; j--)
             {
@@ -93,6 +97,7 @@ void check(int x, int y, char z)
         }
         if(reversi[i][x] == z)
         {
+            change++;
             //printf("DOWN\n");
             for(j = i+1; j < y; j++)
             {
@@ -110,6 +115,7 @@ void check(int x, int y, char z)
         }
         if(reversi[y+i][x+i] == z)
         {
+            change++;
             //printf("LEFT_OVER\n");
             for(j = 1; j < i; j++)
             {
@@ -127,6 +133,7 @@ void check(int x, int y, char z)
         }
         if(reversi[y-i][x+i] == z)
         {
+            change++;
             //printf("LEFT_UNDER\n");
             for(j = 1; j < i; j++)
             {
@@ -144,6 +151,7 @@ void check(int x, int y, char z)
         }
         if(reversi[y+i][x-i] == z)
         {
+            change++;
             //printf("RIGHT_OVER\n");
             for(j = 1; j < i; j++)
             {
@@ -161,6 +169,7 @@ void check(int x, int y, char z)
         }
         if(reversi[y-i][x-i] == z)
         {
+            change++;
             //printf("RIGHT_UNDER\n");
             for(j = 1; j < i; j++)
             {
@@ -169,12 +178,21 @@ void check(int x, int y, char z)
             i = 8;
         }
     }
+    if(change == 0)
+    {
+        return 1; // not change position must change player 
+    }
+    else
+    {
+        return 0; // change position must not change player
+    }
 }
 
 void scan_input()
 {
     scanf(" %d", &num);
     //print_reversi();
+    int temp = 0;
     for(k = 0; k < num; k++)
     {
         char column;
@@ -182,18 +200,28 @@ void scan_input()
         scanf(" %c %d", &column, &row);
         int p = column-'a';
         int q = row-1;
-        if(k%2 == 0) // BLACK X
+        if((k+temp)%2 == 0)
         {
             reversi[q][p] = 'X';
-            check(p, q, 'X');
+            if(check(p, q, 'X') == 1)
+            {
+                temp++;
+                reversi[q][p] = 'O';
+                check(p, q, 'O');
+            }
         }
-        else // WHITE O
+        else
         {
             reversi[q][p] = 'O';
-            check(p, q, 'O');
+            if(check(p, q, 'O') == 1)
+            {
+                temp++;
+                reversi[q][p] = 'X';
+                check(p, q, 'X');
+            }
         }
         //print_reversi();
-        //printf("\n");
+        //printf("temp = %d\n", temp);
     }
 }
 
