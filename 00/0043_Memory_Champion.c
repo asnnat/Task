@@ -1,76 +1,44 @@
 #include<stdio.h>
 
-unsigned long long int c[301];
-int i,j,k;
+unsigned long long int pi[301];
 
-void func(int x,int y)
-{
-    printf("%d %d ",x,y);
-    c[y]=0;
-    for(i=1;i<=y;i++)
-    {
-        for(j=1;j<=y+i;j++)
-        {
-            if(j<x)
-            {
-                for(k=x;k<=y+i+j;k++)
-                {
-                    c[y]+=(i*j*k)%(i+j+k);
-                }
-            }
-            else
-            {
-                for(k=1;k<=y+i+j;k++)
-                {
-                    c[y]+=(i*j*k)%(i+j+k);
-                }
+unsigned long long int func(int x){
+    unsigned long long int sum = 0;
+
+    for(int i = 1; i <= x; i++){
+        for(int j = 1; j <= x + i; j++){
+            for(int k = 1; k <= x + i + j; k++){
+                sum = sum + ((i * j * k) % (i + j + k));
             }
         }
     }
-    if(x!=1)
-    {
-        c[y]+=c[x-1];
-    }
-    printf("%d %llu\n",y,c[y]);
+
+    return sum;
 }
 
-main()
-{
+main(){
     int n;
-    scanf("%d",&n);
-    int a[n];
-    int b[n];
-    for(i=0;i<n;i++)
-    {
-        scanf("%d",&a[i]);
-        b[i]=a[i];
-    }
-    for(i=0;i<n;i++)
-    {
-        for(j=i+1;j<n;j++)
-        {
-            if(b[i]>b[j])
-            {
-                int temp=b[i];
-                b[i]=b[j];
-                b[j]=temp;
-            }
+    scanf("%d", &n);
+
+    int input[n];
+    int max = 0;
+    for(int i = 0; i < n; i++){
+        scanf("%d", &input[i]);
+        if(input[i] > max){
+            max = input[i];
         }
     }
-    for(i=0;i<n;i++)
-    {
-        printf("i=%d ",i);
-        if(i==0)
-        {
-            func(1,b[i]);
-        }
-        else
-        {
-            func(b[i-1]+1,b[i]);
-        }
+
+    pi[0] = 0;
+    for(int i = 1; i < max + 1; i++){
+        pi[i] = func(i);
+
+        //printf("%d %lu\n", i, pi[i]);
     }
-    for(i=0;i<n;i++)
-    {
-        printf("%llu\n",c[a[i]]);
+
+    for(int i = 0; i < n; i++){
+        unsigned long long int result = pi[input[i]];
+
+        printf("%llu\n", result);
     }
 }
