@@ -4,229 +4,177 @@ char reversi[8][8];
 int i, j, k;
 int num;
 
-void set_reversi()
-{
-    for(i = 0; i < 8; i++)
-    {
-        for(j = 0; j < 8; j++)
-        {
+void set_reversi(){
+    for(i = 0; i < 8; i++){
+        for(j = 0; j < 8; j++){
             reversi[i][j] = '.';
         }
     }
+
     reversi[3][3] = 'O';
     reversi[4][4] = 'O';
     reversi[3][4] = 'X';
     reversi[4][3] = 'X';
 }
 
-void print_reversi()
-{
-    for(i = 0; i < 8; i++)
-    {
-        for(j = 0; j < 8; j++)
-        {
-            printf("%c",reversi[i][j]);
+void print_reversi(){
+    for(i = 0; i < 8; i++){
+        for(j = 0; j < 8; j++){
+            printf("%c", reversi[i][j]);
         }
         printf("\n");
     }
 }
 
-int check(int x, int y, char z)
-{
+int check(int x, int y, char z){
     int change = 0;
-    // on left
-    for(i = x+1; i < 8; i++)
-    {
-        if(reversi[y][i] == '.')
-        {
-            i = 8;
-        }
-        if(reversi[y][i] == z)
-        {
-            change++;
-            //printf("LEFT\n");
-            for(j = i-1; j > x; j--)
-            {
-                reversi[y][j] = z;
-            }
-            i = 8;
-        }
-    }
     // on right
-    for(i = x-1; i >= 0; i--)
-    {
-        if(reversi[y][i] == '.')
-        {
-            i = -1;
+    for(i = x + 1; i < 8; i++){
+        if(reversi[y][i] == '.'){
+            break;
         }
-        if(reversi[y][i] == z)
-        {
+        if(reversi[y][i] == z){ // find terminal position first
             change++;
-            //printf("RIGHT\n");
-            for(j = i+1; j < x; j++)
-            {
+            for(j = i - 1; j > x; j--){ // then check position between them
                 reversi[y][j] = z;
             }
-            i = -1;
+            break;
         }
     }
-    // over
-    for(i = y+1; i < 8; i++)
-    {
-        if(reversi[i][x] == '.')
-        {
-            i = 8;
+    // on left
+    for(i = x - 1; i >= 0; i--){
+        if(reversi[y][i] == '.'){
+            break;
         }
-        if(reversi[i][x] == z)
-        {
+        if(reversi[y][i] == z){
             change++;
-            //printf("UP\n");
-            for(j = i-1; j > y; j--)
-            {
-                reversi[j][x] = z;
+            for(j = i + 1; j < x; j++){
+                reversi[y][j] = z;
             }
-            i = 8;
+            break;
         }
     }
     // under
-    for(i = y-1; i >= 0; i--)
-    {
-        if(reversi[i][x] == '.')
-        {
-            i = -1;
+    for(i = y + 1; i < 8; i++){
+        if(reversi[i][x] == '.'){
+            break;
         }
-        if(reversi[i][x] == z)
-        {
+        if(reversi[i][x] == z){
             change++;
-            //printf("DOWN\n");
-            for(j = i+1; j < y; j++)
-            {
+            for(j = i - 1; j > y; j--){
                 reversi[j][x] = z;
             }
-            i = -1;
+            break;
         }
     }
-    // on left over
-    for(i = 1; y+i < 8 && x+i < 8; i++)
-    {
-        if(reversi[y+i][x+i] == '.')
-        {
-            i = 8;
+    // over
+    for(i = y - 1; i >= 0; i--){
+        if(reversi[i][x] == '.'){
+            break;
         }
-        if(reversi[y+i][x+i] == z)
-        {
+        if(reversi[i][x] == z){
             change++;
-            //printf("LEFT_OVER\n");
-            for(j = 1; j < i; j++)
-            {
-                reversi[y+j][x+j] = z;
+            for(j = i + 1; j < y; j++){
+                reversi[j][x] = z;
             }
-            i = 8;
-        }
-    }
-    // on left under
-    for(i = 1; y-i >= 0 && x+i < 8; i++)
-    {
-        if(reversi[y-i][x+i] == '.')
-        {
-            i = 8;
-        }
-        if(reversi[y-i][x+i] == z)
-        {
-            change++;
-            //printf("LEFT_UNDER\n");
-            for(j = 1; j < i; j++)
-            {
-                reversi[y-j][x+j] = z;
-            }
-            i = 8;
-        }
-    }
-    // on right over
-    for(i = 1; y+i < 8 && x-i >= 0; i++)
-    {
-        if(reversi[y+i][x-i] == '.')
-        {
-            i = 8;
-        }
-        if(reversi[y+i][x-i] == z)
-        {
-            change++;
-            //printf("RIGHT_OVER\n");
-            for(j = 1; j < i; j++)
-            {
-                reversi[y+j][x-j] = z;
-            }
-            i = 8;
+            break;
         }
     }
     // on right under
-    for(i = 1; y-i >= 0 && x-i >= 0; i++)
-    {
-        if(reversi[y-i][x-i] == '.')
-        {
-            i = 8;
+    for(i = 1; y + i < 8 && x + i < 8; i++){
+        if(reversi[y + i][x + i] == '.'){
+            break;
         }
-        if(reversi[y-i][x-i] == z)
-        {
+        if(reversi[y + i][x + i] == z){
             change++;
-            //printf("RIGHT_UNDER\n");
-            for(j = 1; j < i; j++)
-            {
-                reversi[y-j][x-j] = z;
+            for(j = i - 1; j > 0; j--){
+                reversi[y + j][x + j] = z;
             }
-            i = 8;
+            break;
         }
     }
-    if(change == 0)
-    {
-        return 1; // not change position must change player 
+    // on right over
+    for(i = 1; y - i >= 0 && x + i < 8; i++){
+        if(reversi[y - i][x + i] == '.'){
+            break;
+        }
+        if(reversi[y - i][x + i] == z){
+            change++;
+            for(j = i - 1; j > 0; j--){
+                reversi[y - j][x + j] = z;
+            }
+            break;
+        }
     }
-    else
-    {
+    // on left under
+    for(i = 1; y + i < 8 && x - i >= 0; i++){
+        if(reversi[y + i][x - i] == '.'){
+            break;
+        }
+        if(reversi[y + i][x - i] == z){
+            change++;
+            for(j = i - 1; j > 0; j--){
+                reversi[y + j][x - j] = z;
+            }
+            break;
+        }
+    }
+    // on left over
+    for(i = 1; y - i >= 0 && x - i >= 0; i++){
+        if(reversi[y - i][x - i] == '.'){
+            break;
+        }
+        if(reversi[y - i][x - i] == z){
+            change++;
+            for(j = i - 1; j > 0; j--){
+                reversi[y - j][x - j] = z;
+            }
+            break;
+        }
+    }
+    if(change == 0){
+        return 1; // not change position must change player 
+    }else{
         return 0; // change position must not change player
     }
 }
 
-void scan_input()
-{
+void scan_input(){
     scanf(" %d", &num);
     //print_reversi();
     int temp = 0;
-    for(k = 0; k < num; k++)
-    {
+    for(k = 0; k < num; k++){
         char column;
         int row;
+
         scanf(" %c %d", &column, &row);
-        int p = column-'a';
-        int q = row-1;
-        if((k+temp)%2 == 0)
-        {
+
+        int p = column - 'a';
+        int q = row - 1;
+
+        if(temp % 2 == 0){
             reversi[q][p] = 'X';
-            if(check(p, q, 'X') == 1)
-            {
+            if(check(p, q, 'X') == 1){
                 temp++;
                 reversi[q][p] = 'O';
                 check(p, q, 'O');
             }
-        }
-        else
-        {
+        }else{
             reversi[q][p] = 'O';
-            if(check(p, q, 'O') == 1)
-            {
+            if(check(p, q, 'O') == 1){
                 temp++;
                 reversi[q][p] = 'X';
                 check(p, q, 'X');
             }
         }
+        
+        temp++;
+
         //print_reversi();
-        //printf("temp = %d\n", temp);
     }
 }
 
-main()
-{
+main(){
     set_reversi();
     scan_input();
     print_reversi();
