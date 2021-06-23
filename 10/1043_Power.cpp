@@ -1,58 +1,65 @@
 #include<iostream>
 #include<map>
 using namespace std;
-main()
-{
+
+main(){
     int n;
     cin >> n;
-    for(int i = 0; i < n; i++)
-    {
-        int num;
-        cin >> num;
-        map<int, int> m;
-        m[2] = 0;
-        map<int, int>::iterator mitr;
-        //int x=0;
-        while(num != 1)
-        {
-            mitr = m.end();
-            mitr--;
-            for(int j = mitr->first; j <= num; j++)
-            {
-                if(num % j == 0)
-                {
-                    //cout << j << ' ';
-                    num /= j;
-                    m[j]++;
-                    j = num+1;
-                }
-                ///x++;
+
+    // find posible prime number in every case
+    map<int, int> prime;
+    map<int, int>::iterator mit;
+    prime[2]++;
+    for(int i = 3; i <= 10000; i++){ // sqrt of 100_000_000
+        int count = 0;
+
+        for(mit = prime.begin(); mit!= prime.end(); mit++){
+            if(i % mit->first == 0){
+                mit = prime.end();
+            }else{
+                count++;
             }
         }
-        //cout << endl;
-        //cout << "x = " << x << endl;
-        if(m[2] == 0)
-        {
-            m.erase(2);
+
+        if(count == prime.size()){
+            prime[i]++;
+        }
+    }
+/*
+    for(mit = prime.begin(); mit != prime.end(); mit++){
+        cout << mit->first << endl;
+    }*/
+
+    for(int i = 0; i < n; i++){
+        int num;
+        cin >> num;
+
+        map<int, int> m;
+        map<int, int>::iterator mitr;
+        mit = prime.begin();
+        while(num != 1 && mit != prime.end()){
+            int temp = mit->first;
+            if(num % temp == 0){
+                m[temp]++;
+                num /= temp;
+            }else{
+                mit++;
+            }
         }
 
         mitr = m.begin();
-        int temp = mitr->second;
-        int count = 0;
-        while(mitr != m.end() && mitr->second == temp)
-        {
-            count++;
-            mitr++;
+        int check = mitr->second;
+        for(mitr = m.begin(); mitr != m.end(); mitr++){
+            if(mitr->second != check){
+                check = 1;
+                break;
+            }
         }
-        //cout << count << ' ' << m.size() << ' ';
-        if(count == m.size() && temp != 1)
-        {
-            cout << temp;
+
+        if(check == 1){
+            cout << "NO" << endl;
+        }else{
+            cout << check << endl;
         }
-        else
-        {
-            cout << "NO";
-        }
-        cout << endl;
     }
 }
