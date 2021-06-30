@@ -39,6 +39,7 @@ main(){
         mit = prime.begin();
         while(num != 1 && mit != prime.end()){
             int temp = mit->first;
+            //cout << num << " " << temp << endl;
             if(num % temp == 0){
                 m[temp]++;
                 num /= temp;
@@ -46,16 +47,26 @@ main(){
                 mit++;
             }
         }
-
-        mitr = m.begin();
-        int check = mitr->second;
+/*
+        cout << m.size() << endl;
         for(mitr = m.begin(); mitr != m.end(); mitr++){
-            if(mitr->second != check){
-                check = 1;
-                break;
-            }
-        }
+            cout << mitr->first << " " << mitr->second << endl;
+        }*/
 
+        int check;
+        if(m.size() > 0){
+            mitr = m.begin();
+            check = mitr->second;
+            for(mitr = m.begin(); mitr != m.end(); mitr++){
+                if(mitr->second != check || mitr->second == 1){
+                    check = 1;
+                    break;
+                }
+            }
+        }else{ // no prime number between 0 and 10000 can devide it.
+            check = 1;
+        }
+        
         if(check == 1){
             cout << "NO" << endl;
         }else{
